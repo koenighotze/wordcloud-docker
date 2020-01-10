@@ -5,7 +5,7 @@ jobs:
       IMAGE_NAME: koenighotze/wordcloud
       RELEASE_TAG: "1.6"
     docker:
-      - image: circleci/golang:1.13-alpine
+      - image: docker:17.05.0-ce-git
 
     steps:
       - checkout
