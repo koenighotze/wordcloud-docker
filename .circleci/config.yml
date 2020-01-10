@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: debian:stretch
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run: ./build_image.sh
+
+      - run: |
+         echo "$DOCKERHUB_LOGIN_PASSWORD" | docker login --username $DOCKERHUB_LOGIN_USENAME --password-stdin
+         docker push koenighotze/wordcloud:${CIRCLE_SHA1}"
+         docker push koenighotze/wordcloud:1.6"
