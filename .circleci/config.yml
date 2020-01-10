@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    context: Koenighotze
     environment:
       IMAGE_NAME: koenighotze/wordcloud
       RELEASE_TAG: "1.6"

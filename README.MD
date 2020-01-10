@@ -1,5 +1,7 @@
 # Wordcloud as a Docker image
 
+[![CircleCI](https://circleci.com/gh/koenighotze/wordcloud-docker/tree/master.svg?style=svg)](https://circleci.com/gh/koenighotze/wordcloud-docker/tree/master)
+
 This repo encapsulates [Wordcloud](https://github.com/amueller/word_cloud) as a simple Docker image.
 
 The current version at Docker Hub is 1.6. Just `docker pull koenighotze/wordcloud:1.6` to get started.
