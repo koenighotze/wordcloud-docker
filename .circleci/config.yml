@@ -16,5 +16,5 @@ jobs:
 
       - run: |
          echo $DOCKERHUB_LOGIN_PASSWORD | docker login --username koenighotze --password-stdin
-         docker push ${IMAGE_NAME}:${CIRCLE_SHA1}"
-         docker push ${IMAGE_NAME}:${RELEASE_TAG}"
+         docker push $IMAGE_NAME:$CIRCLE_SHA1
+         docker push $IMAGE_NAME:$RELEASE_TAG
