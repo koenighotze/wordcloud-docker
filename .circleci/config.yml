@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    environment:
+      IMAGE_NAME: koenighotze/wordcloud
+      RELEASE_TAG: "1.6"
     docker:
       - image: debian:stretch
 
@@ -8,9 +11,9 @@ jobs:
       - checkout
       - setup_remote_docker
 
-      - run: ./build_image.sh
+      - run: docker build -t "${IMAGE_NAME}:${REVISION}" --build-arg NAME="${IMAGE_NAME}" --build-arg CREATED="n/a" --build-arg TITLE="Wordcloud-cli docker wrappet" --build-arg REVISION="$CIRCLE_SHA1" --build-arg BUILD_URL="$CIRCLE_BUILD_URL" --build-arg SOURCE="$CIRCLE_REPOSITORY_URL" .
 
       - run: |
-         echo "$DOCKERHUB_LOGIN_PASSWORD" | docker login --username $DOCKERHUB_LOGIN_USENAME --password-stdin
-         docker push koenighotze/wordcloud:${CIRCLE_SHA1}"
-         docker push koenighotze/wordcloud:1.6"
+         echo "$DOCKERHUB_LOGIN_PASSWORD" | docker login --username "$DOCKERHUB_LOGIN_USENAME" --password-stdin
+         docker push ${IMAGE_NAME}:${CIRCLE_SHA1}"
+         docker push ${IMAGE_NAME}:${RELEASE_TAG}"
