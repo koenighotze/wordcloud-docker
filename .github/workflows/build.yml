@@ -3,8 +3,7 @@ name: Build main or features
 on:
   push:
     branches:
-      - main
-      - "feature/*"
+      - master
   workflow_dispatch:
 
 jobs:
