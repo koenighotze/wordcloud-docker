@@ -1,0 +1,67 @@
+name: Build main or features
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/*"
+  workflow_dispatch:
+
+jobs:
+  qa:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checking out
+        uses: actions/checkout@v3
+
+      - name: Scaning code
+        uses: aquasecurity/trivy-action@0.2.0
+        with:
+          scan-type: "fs"
+          ignore-unfixed: true
+          format: "table"
+          template: "@/contrib/sarif.tpl"
+          severity: "MEDIUM,HIGH,CRITICAL"
+
+      - name: Detecting secrets
+        uses: reviewdog/action-detect-secrets@v0.7
+        with:
+          reporter: github-check
+          github_token: ${{ secrets.github_token }}
+          fail_on_error: true
+          detect_secrets_flags: --exclude-files .git
+
+  build-container:
+    needs:
+      - qa
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checking out
+        uses: actions/checkout@v3
+
+      - name: Containerizing
+        id: containerizing
+        run: |
+          echo "foo"
+      # run: mvn --no-transfer-progress package jib:build -Ddocker.tag=${GITHUB_REF#refs/tags/} -Djib.to.auth.username=${{ secrets.DOCKER_USERNAME }} -Djib.to.auth.password=${{ secrets.DOCKER_PASSWORD }}
+      #       docker build -t "${IMAGE_NAME}:${CIRCLE_SHA1}" --build-arg NAME="${IMAGE_NAME}" --build-arg CREATED="n/a" --build-arg TITLE="Wordcloud-cli docker wrappet" --build-arg REVISION="$CIRCLE_SHA1" --build-arg BUILD_URL="$CIRCLE_BUILD_URL" --build-arg SOURCE="$CIRCLE_REPOSITORY_URL" .
+      #       docker tag "${IMAGE_NAME}:${CIRCLE_SHA1}" "${IMAGE_NAME}:${RELEASE_TAG}"
+
+      - name: Scaning image tar
+        uses: aquasecurity/trivy-action@0.2.1
+        with:
+          image-ref: "${{ steps.containerizing.outputs.image-name }}"
+          format: "table"
+          exit-code: "1"
+          ignore-unfixed: true
+          severity: "MEDIUM,HIGH,CRITICAL"
+          vuln-type: "os,library"
+
+      - name: Push image
+        run: |
+          echo "foo"
+      #       echo $DOCKERHUB_LOGIN_PASSWORD | docker login --username koenighotze --password-stdin
+      #       docker push $IMAGE_NAME:$CIRCLE_SHA1
+      #       docker push $IMAGE_NAME:$RELEASE_TAG

@@ -11,7 +11,7 @@ docker build \
   -t "koenighotze/wordcloud:${REVISION}" \
   --build-arg NAME="koenighotze/wordcloud" \
   --build-arg CREATED="$CREATED" \
-  --build-arg TITLE="Wordcloud-cli docker wrappet" \
+  --build-arg TITLE="Wordcloud-cli docker wrapper" \
   --build-arg REVISION="$REVISION" \
   --build-arg BUILD_URL="$BUILD_URL" \
   --build-arg SOURCE="$SOURCE" \
