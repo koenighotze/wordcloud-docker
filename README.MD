@@ -1,6 +1,7 @@
 # Wordcloud as a Docker image
 
 [![CircleCI](https://circleci.com/gh/koenighotze/wordcloud-docker/tree/master.svg?style=svg)](https://circleci.com/gh/koenighotze/wordcloud-docker/tree/master)
+[![Build main or features](https://github.com/koenighotze/wordcloud-docker/actions/workflows/build.yml/badge.svg)](https://github.com/koenighotze/wordcloud-docker/actions/workflows/build.yml)
 
 This repo encapsulates [Wordcloud](https://github.com/amueller/word_cloud) as a simple Docker image.
 
