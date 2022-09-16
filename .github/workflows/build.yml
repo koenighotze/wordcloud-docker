@@ -48,7 +48,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: false
-          tags: ${GITHUB_REPOSITORY}:${GITHUB_SHA}
+          tags: ${{ env.GITHUB_REPOSITORY }}:${{ env.GITHUB_SHA }}
 
       # - name: Containerizing
       #   id: containerizing
