@@ -20,21 +20,6 @@ USER tagcloud
 
 COPY --from=build-env /home/python/venv /home/python/venv
 
-ARG NAME=n/a
-ARG CREATED=n/a
-ARG TITLE=n/a
-ARG SOURCE=n/a
-ARG REVISION=n/a
-ARG BUILD_URL=n/a
-
-LABEL org.opencontainers.image.authors="David Schmitz / @Koenighotze"
-LABEL org.opencontainers.image.name="${NAME}"
-LABEL org.opencontainers.image.created="${CREATED}"
-LABEL org.opencontainers.image.title="${TITLE}"
-LABEL org.opencontainers.image.source="${SOURCE}"
-LABEL org.opencontainers.image.revision="${REVISION}"
-LABEL org.opencontainers.image.build_url="${BUILD_URL}"
-
 ENV PATH="/home/python/venv/bin:$PATH"
 
 ENTRYPOINT [ "/home/python/venv/bin/wordcloud_cli" ]
