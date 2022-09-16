@@ -40,16 +40,25 @@ jobs:
       - name: Checking out
         uses: actions/checkout@v3
 
-      - name: Containerizing
-        id: containerizing
-        run: |
-          docker build -t "${GITHUB_REPOSITORY}:${GITHUB_SHA}" --build-arg NAME="${GITHUB_REPOSITORY}" --build-arg CREATED="n/a" --build-arg TITLE="Wordcloud-cli docker wrapper" --build-arg REVISION="${GITHUB_SHA}" --build-arg BUILD_URL="${GITHUB_JOB}" --build-arg SOURCE="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" .
-          echo "::set-output name=image-name::${GITHUB_REPOSITORY}:${GITHUB_SHA}"
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: false
+          tags: ${GITHUB_REPOSITORY}:${GITHUB_SHA}
+
+      # - name: Containerizing
+      #   id: containerizing
+      #   run: |
+      #     docker build -t "${GITHUB_REPOSITORY}:${GITHUB_SHA}" --build-arg NAME="${GITHUB_REPOSITORY}" --build-arg CREATED="n/a" --build-arg TITLE="Wordcloud-cli docker wrapper" --build-arg REVISION="${GITHUB_SHA}" --build-arg BUILD_URL="${GITHUB_JOB}" --build-arg SOURCE="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" .
 
       - name: Scaning image tar
         uses: aquasecurity/trivy-action@0.2.1
         with:
-          image-ref: "${{ steps.containerizing.outputs.image-name }}"
+          image-ref: ${GITHUB_REPOSITORY}:${GITHUB_SHA}
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
