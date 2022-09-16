@@ -48,7 +48,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: false
-          tags: ${{ env.GITHUB_REPOSITORY }}:${{ env.GITHUB_SHA }}
+          tags: ${{ github.repository }}:${{ github.sha }}
 
       # - name: Containerizing
       #   id: containerizing
@@ -58,7 +58,7 @@ jobs:
       - name: Scaning image tar
         uses: aquasecurity/trivy-action@0.2.1
         with:
-          image-ref: ${GITHUB_REPOSITORY}:${GITHUB_SHA}
+          image-ref: ${{ github.repository }}:${{ github.sha }}
           format: "table"
           exit-code: "1"
           ignore-unfixed: true
