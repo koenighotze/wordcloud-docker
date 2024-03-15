@@ -1,4 +1,4 @@
-FROM python:3.9-slim AS build-env
+FROM python:3.13.0a4-slim AS build-env
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends build-essential=12.9 gcc=4:10.2.1-1
@@ -13,7 +13,7 @@ COPY req.txt ./
 RUN python -m pip install --upgrade pip
 RUN pip install -r ./req.txt
 
-FROM python:3.9-slim
+FROM python:3.13.0a4-slim
 RUN adduser tagcloud -q
 WORKDIR /home/tagcloud
 USER tagcloud
