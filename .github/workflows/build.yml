@@ -26,7 +26,7 @@ jobs:
           severity: "MEDIUM,HIGH,CRITICAL"
 
       - name: Detecting secrets
-        uses: reviewdog/action-detect-secrets@v0.14
+        uses: reviewdog/action-detect-secrets@v0.29
         with:
           reporter: github-check
           github_token: ${{ secrets.github_token }}
